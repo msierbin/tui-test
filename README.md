@@ -20,7 +20,7 @@ To use the API, you should make a GET request to the `/repos` endpoint with the 
 
 ### Example
 
-`GET /repos?username=your-github-username`
+`GET /users/${your-github-username}/repos`
 
 ## Responses
 
