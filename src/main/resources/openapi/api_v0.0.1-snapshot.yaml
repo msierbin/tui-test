@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: Github API Client
+  description: This is a Github API client application.
+  version: 1.0.0
+
+servers:
+  - url: 'http://localhost:8080/api/v1'
+
+tags:
+  - name: Repos
+    description: Operations about book
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+
+paths:
+  /users/{username}/repos:
+    get:
+      tags:
+        - Repos
+      summary: Lists all user's repositories
+      operationId: getUserRepos
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: The Github username
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Repo'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: Not acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Repo:
+      type: object
+      properties:
+        name:
+          type: string
+        ownerLogin:
+          type: string
+        branches:
+          type: array
+          items:
+            $ref: '#/components/schemas/Branch'
+    Branch:
+      type: object
+      properties:
+        name:
+          type: string
+        lastCommitSha:
+          type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
